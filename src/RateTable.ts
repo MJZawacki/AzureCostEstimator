@@ -26,7 +26,7 @@ export class RateTable {
     public setData(skuapiresponse: Sku[], meterApiResponse: Meter[]) {
 
    
-        this._datacenters = JSON.parse(fs.readFileSync('datacenters.json', 'utf8'));
+        this._datacenters = JSON.parse(fs.readFileSync('src/data/datacenters.json', 'utf8'));
 
         // must update meters first
      
