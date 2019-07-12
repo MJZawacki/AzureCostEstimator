@@ -7,7 +7,8 @@
     "build": "tsc",
     "watch": "tsc --w",
     "test": "mocha -r ts-node/register spec/**/*.spec.ts",
-    "report": "mocha -r ts-node/register spec/**/*.spec.js --reporter mocha-junit-reporter"
+    "report": "mocha -r ts-node/register spec/**/*.spec.js --reporter mocha-junit-reporter",
+    "download_test_data": "node dist/src/Util.js"
   },
   "author": "Michae Zawacki",
   "license": "MIT",

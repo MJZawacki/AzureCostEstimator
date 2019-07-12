@@ -13,39 +13,27 @@ var path = require('path');
 
 describe('RateTable', () => {
 
-  var store, ratecard;
+  var skus: any[], meters: any[], ratetable: RateTable;
+
   before(async function() {
-    // create local cache of ratecard if it doesn't exist
-    this.timeout(50000);
-    let filecache = config.get('filecache') as string; 
-    try { 
-      expect(filecache).to.not.be.null;
-      expect(filecache).to.not.equal('.');
-      expect(filecache).to.not.equal('.\\');
-      expect(filecache).to.not.equal('./');
-      var cacheexists = fs.existsSync(filecache);
-      if (cacheexists) 
-      {
-        var files = fs.readdirSync(filecache); 
-        for (var i in files)
-        {
-          var ratefile = path.join(filecache, files[i]);
-          fs.unlinkSync(ratefile)
-        }
-      }
-     
-    }
-    catch(e) { 
-      throw e; 
-    }
+    this.timeout(30000);
+    // load sku and meter raw data
 
-    store = new RateTableFileStore(filecache);
-    ratecard = await AzRestAPI.getRateTable('MS-AZR-0121p', store);
-    expect(ratecard).to.not.be.null;
-    // Clear Cache
+    skus = JSON.parse(fs.readFileSync('skus_raw_data.json', 'utf8'));
+    meters = JSON.parse(fs.readFileSync('meters_raw_data.json', 'utf8'));
+    // Create RateTable
+    ratetable = new RateTable();
+    ratetable.setData(skus, meters);
 
-    
+    // Assert that RateTable has cosmosdb skus
+
+    expect(skus).to.not.be.null;
+    expect(meters).to.not.be.null;
+    expect(ratetable).to.not.be.null;
+
   });
+
+
 
 
   it('getRateNames should return all ratecards', () => {
@@ -143,7 +131,7 @@ describe('RateTable', () => {
     
 
 
-    let output = ratecard.CalculateCosts(input);
+    let output = ratetable.CalculateCosts(input);
    
     expect(output.costs.length).to.equal(input.length);
     expect(output.costs[0].reason).to.contain('No rate cards found');
@@ -160,7 +148,7 @@ describe('RateTable', () => {
  
     let location = 'eastus';
     let skuname = 'Standard_F2s'
-    let sku = ratecard.findSku(location, skuname)
+    let sku = ratetable.findSku(location, skuname)
    
     expect(sku.length).to.equal(1);
   });

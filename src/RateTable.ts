@@ -36,7 +36,7 @@ export class RateTable {
 
     public saveData(filepath: string) {
         let output = JSON.stringify(this._skus);
-        fs.writeFileSync(filepath, 'utf8');
+        fs.writeFileSync(filepath, output, 'utf8');
     }
 
     private filterVms(skus: Sku[], meters: Meter[]) : Sku[] {
@@ -89,11 +89,18 @@ export class RateTable {
             
     }
 
+    private filterPaaS(meters: Meter[]) : Sku[] {
+
+        return CosmosDBSku.FilterSkus(meters);
+        
+    }
+    
     private filterSkus(skus: Sku[], meters: Meter[]) : Sku[] {
   
         let vms = this.filterVms(skus, meters);
         let storage = this.filterStorage(skus, meters);
-        return vms.concat(storage);
+        let paas = this.filterPaaS(meters);
+        return vms.concat(storage, paas);
       
          
     }

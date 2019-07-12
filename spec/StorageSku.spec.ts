@@ -12,41 +12,28 @@ var path = require('path');
 
 
 describe('StorageSku', () => {
+    var skus: any[], meters: any[], ratetable: RateTable;
 
-  var store, ratecard;
-  before(async function() {
-    // create local cache of ratecard if it doesn't exist
-    this.timeout(50000);
-    let filecache = config.get('filecache') as string; 
-    try { 
-      expect(filecache).to.not.be.null;
-      expect(filecache).to.not.equal('.');
-      expect(filecache).to.not.equal('.\\');
-      expect(filecache).to.not.equal('./');
-      var cacheexists = fs.existsSync(filecache);
-      if (cacheexists) 
-      {
-        var files = fs.readdirSync(filecache); 
-        for (var i in files)
-        {
-          var ratefile = path.join(filecache, files[i]);
-          fs.unlinkSync(ratefile)
-        }
-      }
-     
-    }
-    catch(e) { 
-      throw e; 
-    }
-
-    store = new RateTableFileStore(filecache);
-    ratecard = await AzRestAPI.getRateTable('MS-AZR-0121p', store);
-    expect(ratecard).to.not.be.null;
-    // Clear Cache
-
-    
-  });
-
+    before(function() {
+      this.timeout(30000);
+      // load sku and meter raw data
+  
+      skus = JSON.parse(fs.readFileSync('skus_raw_data.json', 'utf8'));
+      meters = JSON.parse(fs.readFileSync('meters_raw_data.json', 'utf8'));
+      // Create RateTable
+      ratetable = new RateTable();
+      ratetable.setData(skus, meters);
+  
+      // Assert that RateTable has cosmosdb skus
+  
+      expect(skus).to.not.be.null;
+      expect(meters).to.not.be.null;
+      expect(ratetable).to.not.be.null;
+      
+  
+      
+    });
+  
 
 
   it('CalculateCosts should return correct costs for P60 sku', async () => {
@@ -61,7 +48,7 @@ describe('StorageSku', () => {
       "quantity": 3,
       "type": "storage"
     }];
-    let output = ratecard.CalculateCosts(input);
+    let output = ratetable.CalculateCosts(input);
    
     expect(output.monthlytotal).to.equal("2838.24");
     expect(output.annualtotal).to.equal("34058.88");
