@@ -11,8 +11,8 @@ export class CosmosDBSku {
     static FilterSku(meters: any[]) {
         // Where MeterCategory == 'Azure Cosmos DB'
         // AND MeterStatus != 'Deprecated'
-            cosmosmeters = meters.filter((x) => { return ((x.location == location) && ((x.name == skuname) || (x.size.includes(skuname))))});
-        }
+        var cosmosmeters = meters.filter((x) => { return ((x.MeterCategory == 'Azure Cosmos DB') && ((x.MeterStatus != 'Deprecated')))});
+        return [];
         // Combine Cascading Rates for each region as one Sku
         
     }

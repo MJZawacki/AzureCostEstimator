@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import { VMSku } from "../src/VMSku";
 import { StorageSku } from "../src/StorageSku";
 import { IRateTableStore } from "./IRateTableStore";
+import { CosmosDBSku } from "./CosmosDBSku";
 
 export class RateTable {
 
@@ -91,7 +92,7 @@ export class RateTable {
 
     private filterPaaS(meters: Meter[]) : Sku[] {
 
-        return CosmosDBSku.FilterSkus(meters);
+        return CosmosDBSku.FilterSku(meters);
         
     }
     
@@ -289,7 +290,7 @@ export class RateTable {
 
     private lookupmeterregion(location) : string {
 
-  
+        
         let regions : Array<any> = this._datacenters.filter((x) => { return x.location.toLowerCase() == location.toLowerCase() });
     
         
