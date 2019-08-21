@@ -13,39 +13,30 @@ var path = require('path');
 
 describe('VMSku', () => {
 
-  var store, ratecard;
-  before(async function() {
-    // create local cache of ratecard if it doesn't exist
-    this.timeout(50000);
-    let filecache = config.get('filecache') as string; 
-    try { 
-      expect(filecache).to.not.be.null;
-      expect(filecache).to.not.equal('.');
-      expect(filecache).to.not.equal('.\\');
-      expect(filecache).to.not.equal('./');
-      var cacheexists = fs.existsSync(filecache);
-      if (cacheexists) 
-      {
-        var files = fs.readdirSync(filecache); 
-        for (var i in files)
-        {
-          var ratefile = path.join(filecache, files[i]);
-          fs.unlinkSync(ratefile)
-        }
-      }
-     
-    }
-    catch(e) { 
-      throw e; 
-    }
+  
+  var skus: any[], meters: any[], ratetable: RateTable;
 
-    store = new RateTableFileStore(filecache);
-    ratecard = await AzRestAPI.getRateTable('MS-AZR-0121p', store);
-    expect(ratecard).to.not.be.null;
-    // Clear Cache
+  before(function() {
+    this.timeout(30000);
+    // load sku and meter raw data
+
+    skus = JSON.parse(fs.readFileSync('skus_raw_data.json', 'utf8'));
+    meters = JSON.parse(fs.readFileSync('meters_raw_data.json', 'utf8'));
+    // Create RateTable
+    ratetable = new RateTable();
+    ratetable.setData(skus, meters);
+
+    // Assert that RateTable has cosmosdb skus
+
+    expect(skus).to.not.be.null;
+    expect(meters).to.not.be.null;
+    expect(ratetable).to.not.be.null;
+    
 
     
   });
+
+  
 
 
   
@@ -59,10 +50,8 @@ describe('VMSku', () => {
       "quantity": 1,
       "type": "vm"
     }];
-    let output = ratecard.CalculateCosts(input);
-    if (output.monthlytotal == "0.00") {
-      expect(output.reason).to.equal("Error");
-    }
+    let output = ratetable.CalculateCosts(input);
+
     expect(output.monthlytotal).to.equal("27.01");
     expect(output.annualtotal).to.equal("324.12");
     expect(output.costs.length).to.equal(input.length);
@@ -78,10 +67,8 @@ describe('VMSku', () => {
       "quantity": 1,
       "type": "vm"
     }];
-    let output = ratecard.CalculateCosts(input);
-    if (output.monthlytotal == "0.00") {
-      expect(output.reason).to.equal("Error");
-    }
+    let output = ratetable.CalculateCosts(input);
+
     expect(output.monthlytotal).to.equal("36.79");
     expect(output.annualtotal).to.not.be.null;
     expect(output.costs.length).to.equal(input.length);
@@ -97,10 +84,8 @@ describe('VMSku', () => {
       "quantity": 1,
       "type": "vm"
     }];
-    let output = ratecard.CalculateCosts(input);
-    if (output.monthlytotal == "0.00") {
-      expect(output.reason).to.equal("Error");
-    }
+    let output = ratetable.CalculateCosts(input);
+
     expect(output.monthlytotal).to.equal("529.98");
     expect(output.annualtotal).to.not.be.null;
     expect(output.costs.length).to.equal(input.length);
@@ -116,10 +101,8 @@ describe('VMSku', () => {
       "quantity": 1,
       "type": "vm"
     }];
-    let output = ratecard.CalculateCosts(input);
-    if (output.monthlytotal == "0.00") {
-      expect(output.reason).to.equal("Error");
-    }
+    let output = ratetable.CalculateCosts(input);
+
     expect(output.monthlytotal).to.equal("28.84");
     expect(output.annualtotal).to.not.be.null;
     expect(output.costs.length).to.equal(input.length);
@@ -135,10 +118,8 @@ describe('VMSku', () => {
       "quantity": 1,
       "type": "vm"
     }];
-    let output = ratecard.CalculateCosts(input);
-    if (output.monthlytotal == "0.00") {
-      expect(output.reason).to.equal("Error");
-    }
+    let output = ratetable.CalculateCosts(input);
+
     expect(output.monthlytotal).to.equal("144.54");
     expect(output.annualtotal).to.not.be.null;
     expect(output.costs.length).to.equal(input.length);
@@ -154,10 +135,8 @@ describe('VMSku', () => {
       "quantity": 1,
       "type": "vm"
     }];
-    let output = ratecard.CalculateCosts(input);
-    if (output.monthlytotal == "0.00") {
-      expect(output.reason).to.equal("Error");
-    }
+    let output = ratetable.CalculateCosts(input);
+
     expect(output.monthlytotal).to.equal("71.17");
     expect(output.annualtotal).to.not.be.null;
     expect(output.costs.length).to.equal(input.length);
@@ -173,10 +152,8 @@ describe('VMSku', () => {
       "quantity": 1,
       "type": "vm"
     }];
-    let output = ratecard.CalculateCosts(input);
-    if (output.monthlytotal == "0.00") {
-      expect(output.reason).to.equal("Error");
-    }
+    let output = ratetable.CalculateCosts(input);
+
     expect(output.monthlytotal).to.equal("71.17");
     expect(output.annualtotal).to.not.be.null;
     expect(output.costs.length).to.equal(input.length);
@@ -193,10 +170,8 @@ describe('VMSku', () => {
       "quantity": 1,
       "type": "vm"
     }];
-    let output = ratecard.CalculateCosts(input);
-    if (output.monthlytotal == "0.00") {
-      expect(output.reason).to.equal("Error");
-    }
+    let output = ratetable.CalculateCosts(input);
+
     expect(output.monthlytotal).to.equal("36.28");
     expect(output.annualtotal).to.equal("435.37");
     expect(output.costs.length).to.equal(input.length);
@@ -213,7 +188,7 @@ describe('VMSku', () => {
       "quantity": 1,
       "type": "vm"
     }];
-    let output = ratecard.CalculateCosts(input);
+    let output = ratetable.CalculateCosts(input);
    
     expect(output.monthlytotal).to.equal("72.27");
     expect(output.annualtotal).to.equal("867.24");
@@ -231,7 +206,7 @@ describe('VMSku', () => {
       "quantity": 3,
       "type": "vm"
     }];
-    let output = ratecard.CalculateCosts(input);
+    let output = ratetable.CalculateCosts(input);
    
     expect(output.monthlytotal).to.equal("525.60");
     expect(output.annualtotal).to.equal("6307.20");

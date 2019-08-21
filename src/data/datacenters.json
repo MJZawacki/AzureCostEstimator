@@ -159,5 +159,30 @@
         "location": "CentralUSEUAP",
         "MeterRegion": "US South",
         "Estimated": true
+    },
+    {
+        "location": "SwitzerlandNorth",
+        "MeterRegion": "FR South",
+        "Estimated": true
+    },
+    {
+        "location": "SwitzerlandWest",
+        "MeterRegion": "FR South",
+        "Estimated": true
+    },
+        {
+        "location": "Germany",
+        "MeterRegion": "FR South",
+        "Estimated": true
+    },
+    {
+        "location": "GermanyWestCentral",
+        "MeterRegion": "FR South",
+        "Estimated": true
+    },
+        {
+        "location": "GermanyNorth",
+        "MeterRegion": "FR South",
+        "Estimated": true
     }
 ]

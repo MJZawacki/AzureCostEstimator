@@ -36,10 +36,24 @@ describe('CosmosDB', () => {
     
   });
 
+  it('FilterSku should return correct CosmosDB sku details', function() {
+    var cosmosdb_meters = CosmosDBSku.FilterSku(meters);
+    expect(cosmosdb_meters.length).to.be.least(30);
+
+  });
+
+  it('FilterSku should return correct CosmosDB sku details for EastUS', function() {
+    var cosmosdb_meters = CosmosDBSku.FilterSku(meters);
+    expect(cosmosdb_meters).to.have.deep.keys.('location': 'US West' });
+
+  });
+
+
+
   it('CosmosDB should be returned as a valid sku', async () => {
     var sku = ratetable.findSku('eastus','CosmosDB');
     expect(sku).to.not.be.null;
-    expect(sku).to.be.length(1);
+    expect(sku.length).to.be.length(1);
   });
 
   it('CosmosDB should return correct costs for 300 R/U and 1GB', async () => {

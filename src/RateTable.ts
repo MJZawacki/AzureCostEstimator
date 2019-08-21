@@ -31,7 +31,7 @@ export class RateTable {
 
         // must update meters first
      
-        this._skus = this.filterSkus(skuapiresponse, meterApiResponse);
+        this._skus = this.filterAllSkus(skuapiresponse, meterApiResponse);
         this._meters = meterApiResponse;
     }
 
@@ -96,7 +96,7 @@ export class RateTable {
         
     }
     
-    private filterSkus(skus: Sku[], meters: Meter[]) : Sku[] {
+    private filterAllSkus(skus: Sku[], meters: Meter[]) : Sku[] {
   
         let vms = this.filterVms(skus, meters);
         let storage = this.filterStorage(skus, meters);

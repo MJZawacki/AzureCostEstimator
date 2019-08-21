@@ -6,4 +6,8 @@ export class StorageSku {
         return monthlycost;
         
     }
+
+    static FilterSku(meters: any[]) {
+
+    }
 }
