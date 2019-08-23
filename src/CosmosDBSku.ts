@@ -1,7 +1,14 @@
 import { Sku } from "./RateTable";
+import { RegionStore } from "./Regions";
 
 export class CosmosDBSku {
     
+    private _regions: RegionStore;
+
+    constructor (regions: RegionStore) {
+        this._regions = regions;
+    }
+
     static CalculateCost(ru: number, rateT1: number, storage: number, storageRate: number): number {
 
         let monthlycost = rateT1 * ru;
@@ -10,7 +17,7 @@ export class CosmosDBSku {
         
     }
 
-    private static groupBy(list, keyGetter) {
+    groupBy(list, keyGetter) {
         const map = new Map();
         list.forEach((item) => {
              const key = keyGetter(item);
@@ -24,7 +31,7 @@ export class CosmosDBSku {
         return map;
     }
 
-    static FilterSku(meters: any[]) {
+    public FilterSku(meters: any[]) : Sku[] {
         // Where MeterCategory == 'Azure Cosmos DB'
         // AND MeterStatus != 'Deprecated'
         var cosmosmeters = meters.filter((x) => { return ((x.MeterCategory == 'Azure Cosmos DB') && ((x.MeterStatus != 'Deprecated')))});
@@ -32,15 +39,16 @@ export class CosmosDBSku {
         // Combine Cascading Rates for each region as one Sku
         var grouped_meters = this.groupBy(cosmosmeters, meter => meter.MeterRegion);
         var final_meter_set = [];
-        for (var key of grouped_meters.keys()) {
+        for (var region of grouped_meters.keys()) {
             // build single sku
+            var location = this._regions.LocationLookup(region);
             let cosmosSku : Sku = {
                 "basename": "CosmosDB",
                 "id": "CosmosDB",
-                "location": key, // TODO change to dev_location
-                "name": "RU/s",
-                "ratecards": grouped_meters.get(key),
-                "meterregion": key,
+                "location": location, 
+                "name": "CosmosDB",
+                "ratecards": grouped_meters.get(region),
+                "meterregion": region,
                 "resourceType": "PaaS",
                 "size": "N/A"
 

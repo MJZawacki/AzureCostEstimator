@@ -5,7 +5,7 @@ import { IRateTableStore } from "./IRateTableStore";
 export class AzRestAPI {
 
     private static client_id = config.get('client_id') as string; 
-    private static client_secret = config.get('client_secret') as string;
+    private static client_secret = encodeURI(config.get('client_secret') as string);
     private static client_tenant = config.get('client_tenant') as string;
     private static client_subscription = config.get('client_subscription') as string;
 

@@ -1,13 +1,19 @@
-import { expect, assert } from 'chai';
+
+
+import { expect, assert, should } from 'chai';
 import 'mocha';
 
-import { RateTable, Sku, Meter, CostInput } from '../src/RateTable';
+
+
+import { RateTable, Sku, Meter, CostInput,  } from '../src/RateTable';
 import { RateTableFileStore } from '../src/RateTableFileStore';
 import * as fs from 'fs';
 import { doesNotReject } from 'assert';
 import * as config from "config";
 import { AzRestAPI } from '../src/AzRestAPI';
 import { CosmosDBSku } from '../src/CosmosDBSku';
+import { RegionStore, Regions } from '../src/Regions';
+
 var path = require('path');
 
 
@@ -15,7 +21,7 @@ var path = require('path');
 describe('CosmosDB', () => {
 
  
-  var skus: any[], meters: any[], ratetable: RateTable;
+  var skus: any[], meters: any[], ratetable: RateTable, datacenters: RegionStore;
 
   before(function() {
     this.timeout(30000);
@@ -27,8 +33,8 @@ describe('CosmosDB', () => {
     ratetable = new RateTable();
     ratetable.setData(skus, meters);
 
-    // Assert that RateTable has cosmosdb skus
-
+    datacenters = new RegionStore();
+  
     expect(skus).to.not.be.null;
     expect(meters).to.not.be.null;
     expect(ratetable).to.not.be.null;
@@ -37,21 +43,31 @@ describe('CosmosDB', () => {
   });
 
   it('FilterSku should return correct CosmosDB sku details', function() {
-    var cosmosdb_meters = CosmosDBSku.FilterSku(meters);
+    var sku = new CosmosDBSku(datacenters);
+    var cosmosdb_meters = sku.FilterSku(meters);
     expect(cosmosdb_meters.length).to.be.least(30);
 
   });
 
   it('FilterSku should return correct CosmosDB sku details for EastUS', function() {
-    var cosmosdb_meters = CosmosDBSku.FilterSku(meters);
-    expect(cosmosdb_meters).to.have.deep.keys.('location': 'US West' });
+    var sku = new CosmosDBSku(datacenters);
+    var cosmosdb_meters = sku.FilterSku(meters);
+    cosmosdb_meters = cosmosdb_meters.filter((x) => x.location == 'US West');
+    expect(cosmosdb_meters.length).to.equal(1);
+    expect(cosmosdb_meters[0].location).to.equal('US West');
+
+
+    // need to figure out how to work with typescript and chai-like & chai-things to make this work
+    //expect(cosmosdb_meters).to.be.an('array').that.contains.something.like({location: 'US West'});
+
+    //expect(cosmosdb_meters).to.have.deep.property('location', 'US West');
 
   });
 
 
 
   it('CosmosDB should be returned as a valid sku', async () => {
-    var sku = ratetable.findSku('eastus','CosmosDB');
+    var sku = ratetable.findSku('westus','CosmosDB');
     expect(sku).to.not.be.null;
     expect(sku.length).to.be.length(1);
   });

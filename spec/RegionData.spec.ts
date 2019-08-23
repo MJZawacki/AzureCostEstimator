@@ -10,9 +10,7 @@ import { IBaseSku } from '../src/BaseSku';
 
 describe('Meter Data - Regions', () => {
 
-  var storageaccount = config.get('storageaccount');
-  var storageaccountkey = config.get('storageaccountkey');
-  
+
   it('All MeterCard Regions should have a related location', function() {
       // get all distinct locations from meter data
       var datacenters : any[] = JSON.parse(fs.readFileSync('src/data/datacenters.json', 'utf8'));
@@ -27,7 +25,7 @@ describe('Meter Data - Regions', () => {
 
       unique_skus.forEach((sku_location) => {
           var location = sku_location;
-          let regions : Array<any> = datacenters.filter((x) => { return x.location.toLowerCase() == location.toLowerCase() });
+          let regions : Array<any> = datacenters.filter((x) => { return x.Location.toLowerCase() == location.toLowerCase() });
           expect(regions.length).to.equal(1, "Location missing region map: " + location)
 
       });
@@ -49,5 +47,7 @@ describe('Meter Data - Regions', () => {
       expect(unique_regions.size).to.be.at.least(48);
 
   });
+
+    it('Each location should have a matching region');
 
 });

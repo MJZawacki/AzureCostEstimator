@@ -1,188 +1,212 @@
 [
     {
-        "location": "eastus",
+        "Location": "eastus",
         "MeterRegion": "US East"
     },
     {
-        "location": "eastus2",
+        "Location": "eastus2",
         "MeterRegion": "US East 2"
     },
     {
-        "location": "westus",
+        "Location": "westus",
         "MeterRegion": "US West"
     },
     {
-        "location": "centralus",
+        "Location": "centralus",
         "MeterRegion": "US Central"
     },
     {
-        "location": "northcentralus",
+        "Location": "northcentralus",
         "MeterRegion": "US North Central"
     },
     {
-        "location": "southcentralus",
+        "Location": "southcentralus",
         "MeterRegion": "US South Central"
     },
     {
-        "location": "northeurope",
+        "Location": "northeurope",
         "MeterRegion": "EU North"
     },
     {
-        "location": "westeurope",
+        "Location": "westeurope",
         "MeterRegion": "EU West"
     },
     {
-        "location": "eastasia",
+        "Location": "eastasia",
         "MeterRegion": "AP East"
     },
     {
-        "location": "southeastasia",
+        "Location": "southeastasia",
         "MeterRegion": "AP Southeast"
     },
     {
-        "location": "japaneast",
+        "Location": "japaneast",
         "MeterRegion": "JA East"
     },
     {
-        "location": "japanwest"
-        ,
+        "Location": "japanwest",
         "MeterRegion": "JA West"
     },
     {
-        "location": "australiaeast",
+        "Location": "australiaeast",
         "MeterRegion": "AU East"
     },
     {
-        "location": "australiasoutheast",
+        "Location": "australiasoutheast",
         "MeterRegion": "AU Southeast"
     },
     {
-        "location": "brazilsouth",
+        "Location": "brazilsouth",
         "MeterRegion": "BR South"
     },
     {
-        "location": "SouthIndia",
+        "Location": "SouthIndia",
         "MeterRegion": "IN South"
     },
     {
-        "location": "CentralIndia",
+        "Location": "CentralIndia",
         "MeterRegion": "IN Central"
     },
     {
-        "location": "WestIndia",
+        "Location": "WestIndia",
         "MeterRegion": "IN West"
     },
     {
-        "location": "CanadaCentral",
+        "Location": "CanadaCentral",
         "MeterRegion": "CA Central"
     },
     {
-        "location": "CanadaEast",
+        "Location": "CanadaEast",
         "MeterRegion": "CA East"
     },
     {
-        "location": "westus2",
+        "Location": "westus2",
         "MeterRegion": "US West 2"
     },
     {
-        "location": "westcentralus",
+        "Location": "westcentralus",
         "MeterRegion": "US West Central"
     },
     {
-        "location": "uksouth",
+        "Location": "uksouth",
         "MeterRegion": "UK South"
     },
     {
-        "location": "ukwest",
+        "Location": "ukwest",
         "MeterRegion": "UK West"
     },
     {
-        "location": "KoreaCentral",
+        "Location": "KoreaCentral",
         "MeterRegion": "KR Central"
     },
     {
-        "location": "KoreaSouth",
+        "Location": "KoreaSouth",
         "MeterRegion": "KR South"
     },
     {
-        "location": "FranceCentral",
+        "Location": "SouthAfricaNorth",
+        "MeterRegion": "ZA North",
+        "Estimated": false
+    },
+    {
+        "Location": "UKNorth",
+        "MeterRegion": "US South",
+        "Estimated": true
+    },
+    {
+        "Location": "UKSouth2",
+        "MeterRegion": "US South",
+        "Estimated": true
+    },
+    {
+        "Location": "FranceSouth",
         "MeterRegion": "FR South"
     },
     {
-        "location": "SouthAfricaNorth",
-        "MeterRegion": "US South",
-        "Estimated": true
+        "Location": "FranceCentral",
+        "MeterRegion": "FR Central"
     },
     {
-        "location": "UKNorth",
-        "MeterRegion": "US South",
-        "Estimated": true
-    },
-    {
-        "location": "UKSouth2",
-        "MeterRegion": "US South",
-        "Estimated": true
-    },
-    {
-        "location": "FranceSouth",
-        "MeterRegion": "FR South"
-    },
-    {
-        "location": "AustraliaCentral",
+        "Location": "AustraliaCentral",
         "MeterRegion": "AU Central"
     },
     {
-        "location": "AustraliaCentral2",
+        "Location": "AustraliaCentral2",
         "MeterRegion": "AU Central 2"
     },
     {
-        "location": "SouthAfricaWest",
+        "Location": "",
+        "MeterRegion": ""
+    },
+    {
+        "Location": "SouthAfricaWest",
+        "MeterRegion": "ZA West",
+        "Estimated": false
+    },
+    {
+        "Location": "UAECentral",
+        "MeterRegion": "AE Central",
+        "Estimated": false
+    },
+    {
+        "Location": "UAENorth",
+        "MeterRegion": "AE North",
+        "Estimated": false
+    },
+    {
+        "Location": "EastUS2EUAP",
         "MeterRegion": "US South",
         "Estimated": true
     },
     {
-        "location": "UAECentral",
+        "Location": "CentralUSEUAP",
         "MeterRegion": "US South",
         "Estimated": true
     },
     {
-        "location": "UAENorth",
-        "MeterRegion": "US South",
-        "Estimated": true
-    },
-    {
-        "location": "EastUS2EUAP",
-        "MeterRegion": "US South",
-        "Estimated": true
-    },
-    {
-        "location": "CentralUSEUAP",
-        "MeterRegion": "US South",
-        "Estimated": true
-    },
-    {
-        "location": "SwitzerlandNorth",
+        "Location": "SwitzerlandNorth",
         "MeterRegion": "FR South",
         "Estimated": true
     },
     {
-        "location": "SwitzerlandWest",
-        "MeterRegion": "FR South",
-        "Estimated": true
-    },
-        {
-        "location": "Germany",
-        "MeterRegion": "FR South",
-        "Estimated": true
-    },
-    {
-        "location": "GermanyWestCentral",
+        "Location": "SwitzerlandWest",
         "MeterRegion": "FR South",
         "Estimated": true
     },
         {
-        "location": "GermanyNorth",
+        "Location": "Germany",
         "MeterRegion": "FR South",
+        "Estimated": true
+    },
+    {
+        "Location": "GermanyWestCentral",
+        "MeterRegion": "FR South",
+        "Estimated": true
+    },
+        {
+        "Location": "GermanyNorth",
+        "MeterRegion": "FR South",
+        "Estimated": true
+    },
+    {
+        "Location": "usgovaz",
+        "MeterRegion":"US Gov AZ",
+        "Estimated": true
+    },
+    {
+        "Location": "usgovtx",
+        "MeterRegion":"US Gov TX",
+        "Estimated": true
+    },
+    {
+        "Location": "usgov",
+        "MeterRegion":"US Gov",
+        "Estimated": true
+    },
+    {
+        "Location": "usdod",
+        "MeterRegion":"US DoD",
         "Estimated": true
     }
+    
 ]

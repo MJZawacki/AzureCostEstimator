@@ -4,6 +4,7 @@ import { VMSku } from "../src/VMSku";
 import { StorageSku } from "../src/StorageSku";
 import { IRateTableStore } from "./IRateTableStore";
 import { CosmosDBSku } from "./CosmosDBSku";
+import { Regions, RegionStore } from "./Regions";
 
 export class RateTable {
 
@@ -27,7 +28,7 @@ export class RateTable {
     public setData(skuapiresponse: Sku[], meterApiResponse: Meter[]) {
 
    
-        this._datacenters = JSON.parse(fs.readFileSync('src/data/datacenters.json', 'utf8'));
+        this._datacenters = new RegionStore();
 
         // must update meters first
      
@@ -49,7 +50,7 @@ export class RateTable {
         for (var i in vms) {
             let basename = vms[i].size.replace("_"," ");
             let location = vms[i].locations[0];
-            let meterregion = this.lookupmeterregion(location);
+            let meterregion = this._datacenters.MeterRegionLookup(location);
             let vm : Sku = {
                 "basename": basename,
                 "id": vms[i].id,
@@ -71,7 +72,7 @@ export class RateTable {
         let cleanDisks : Sku[] = [];
         for (var i in disks) {
             let location = disks[i].locations[0];
-            let meterregion = this.lookupmeterregion(location);
+            let meterregion = this._datacenters.MeterRegionLookup(location);
             let size = disks[i].size;
             let disk : Sku = {
                 "basename": null,
@@ -92,7 +93,8 @@ export class RateTable {
 
     private filterPaaS(meters: Meter[]) : Sku[] {
 
-        return CosmosDBSku.FilterSku(meters);
+        var cosmosSkus = new CosmosDBSku(this._datacenters);
+        return cosmosSkus.FilterSku(meters);
         
     }
     
@@ -288,22 +290,15 @@ export class RateTable {
         return output;
     }
 
-    private lookupmeterregion(location) : string {
 
-        
-        let regions : Array<any> = this._datacenters.filter((x) => { return x.location.toLowerCase() == location.toLowerCase() });
     
-        
-        var region = (regions.length >= 1) ? regions[0].MeterRegion : '';
-        if (region == '')
-            console.log('No Region for ' + location);
-        return region;
-    }
-    
-    private _datacenters: any[];
+    private _datacenters: RegionStore;
     private _skus: Sku[];
     private _meters: Meter[];
 }
+
+
+
 
 export interface Sku {
     id: string;
