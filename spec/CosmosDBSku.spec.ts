@@ -11,7 +11,7 @@ import * as fs from 'fs';
 import { doesNotReject } from 'assert';
 import * as config from "config";
 import { AzRestAPI } from '../src/AzRestAPI';
-import { CosmosDBSku } from '../src/CosmosDBSku';
+import { CosmosDBSku, ICosmosDBSkuInput } from '../src/CosmosDBSku';
 import { RegionStore, Regions } from '../src/Regions';
 
 var path = require('path');
@@ -49,12 +49,12 @@ describe('CosmosDB', () => {
 
   });
 
-  it('FilterSku should return correct CosmosDB sku details for EastUS', function() {
+  it('FilterSku should return correct CosmosDB sku details for westus', function() {
     var sku = new CosmosDBSku(datacenters);
     var cosmosdb_meters = sku.FilterSku(meters);
-    cosmosdb_meters = cosmosdb_meters.filter((x) => x.location == 'US West');
+    cosmosdb_meters = cosmosdb_meters.filter((x) => x.location == 'westus');
     expect(cosmosdb_meters.length).to.equal(1);
-    expect(cosmosdb_meters[0].location).to.equal('US West');
+    expect(cosmosdb_meters[0].location).to.equal('westus');
 
 
     // need to figure out how to work with typescript and chai-like & chai-things to make this work
@@ -66,14 +66,19 @@ describe('CosmosDB', () => {
 
 
 
-  it('CosmosDB should be returned as a valid sku', async () => {
+  it('CosmosDB should be returned as a valid sku for westus', async () => {
     var sku = ratetable.findSku('westus','CosmosDB');
     expect(sku).to.not.be.null;
-    expect(sku.length).to.be.length(1);
+    expect(sku.length).to.equal(1);
   });
 
   it('CosmosDB should return correct costs for 300 R/U and 1GB', async () => {
-
+    var sku_input: ICosmosDBSkuInput = {
+      ru: 300,
+      multimaster: false,
+      data: 500,
+      hours: 30*24
+    }
     // SETUP
     
     
@@ -81,7 +86,7 @@ describe('CosmosDB', () => {
     var result = CosmosDBSku.CalculateCost(300, .56, 1, 1.45);
 
     // ASSERT
-    expect(result).to.equal("1");
+    expect(result.toFixed(2)).to.equal("3.13");
     
   });
 
@@ -94,7 +99,7 @@ describe('CosmosDB', () => {
     var result = CosmosDBSku.CalculateCost(3000, .56, 10, 1.45);
 
     // ASSERT
-    expect(result).to.equal("1");
+    expect(result.toFixed(2)).to.equal("31.30");
     
   });
 
